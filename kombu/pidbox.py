@@ -143,6 +143,7 @@ class Mailbox(object):
     node_cls = Node
     exchange_fmt = '%s.pidbox'
     reply_exchange_fmt = 'reply.%s.pidbox'
+    reply_queue_fmt = '%s.%s'
 
     #: Name of application.
     namespace = None
@@ -211,7 +212,7 @@ class Mailbox(object):
     def get_reply_queue(self):
         oid = self.oid
         return Queue(
-            '%s.%s' % (oid, self.reply_exchange.name),
+            self.reply_queue_fmt % (oid, self.reply_exchange.name),
             exchange=self.reply_exchange,
             routing_key=oid,
             durable=False,
